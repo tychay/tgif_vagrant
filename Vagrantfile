@@ -55,6 +55,11 @@ Vagrant.configure(2) do |config|
   end
   # probably need to move this and set enabled = false to fix for vivid
   config.vm.provision :hostmanager
+  # VVV uses Hostsupdater https://github.com/cogitatio/vagrant-hostsupdater
+  # however that doesn't look like it updates the /etc/hosts of the client
+  # systems.
+  # Consider hosts-provisioner?
+  # https://github.com/mitchellh/vagrant/wiki/Available-Vagrant-Plugins
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
