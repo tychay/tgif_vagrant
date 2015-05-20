@@ -1,6 +1,20 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# General project settings
+#################################
+
+# IP Address for the host only network, change it to anything you like
+# but please keep it within the IPv4 private network range
+ip_address = "172.22.22.22"
+
+# The project name is base for directories, hostname and alike
+project_name = "projectname"
+
+# MySQL and PostgreSQL password - feel free to change it to something
+# more secure (Note: Changing this will require you to update the index.php example file)
+database_password = "root"
+
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
@@ -12,7 +26,11 @@ Vagrant.configure(2) do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/vivid64"
+  # https://vagrantcloud.com/ubuntu
+  # Need to use trusty for now as vivid has a hostname control masking
+  # https://github.com/mitchellh/vagrant/issues/5673
+  # https://help.ubuntu.com
+  config.vm.box = "ubuntu/trusty64"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -25,8 +43,18 @@ Vagrant.configure(2) do |config|
   #config.vm.network "forwarded_port", guest: 80, host: 8080
 
   # Create a private network, which allows host-only access to the machine
-  # using a specific IP.
-  config.vm.network "private_network", ip: "192.168.33.10"
+  # using a specific IP. Use hostmanager to have custom domain added to host
+  # machine's host file
+  #config.vm.network "private_network", ip: "192.168.33.10"
+  config.hostmanager.enabled = true
+  config.hostmanager.manage_host = true
+  config.vm.define project_name do |node|
+    node.vm.hostname = project_name + ".local"
+    node.vm.network :private_network, ip: ip_address
+    node.hostmanager.aliases = [ "www." + project_name + ".local" ]
+  end
+  # probably need to move this and set enabled = false to fix for vivid
+  config.vm.provision :hostmanager
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
