@@ -1,0 +1,8 @@
+---
+    php_ppa: php5-5.6
+    doc_root: /vagrant/tgif/samples/www
+    sys_packages: [re2c]
+    dist: precise
+    php_packages: ["php-pear","php5-curl","php5-cli","php5-gd","php5-mcrypt","php5-memcached","php5-xdebug","php5-tidy","php5-mysql"]
+    recl_packages: ["APC","zip","big_int","igbinary"]
+    x_pecl_packages: ["PDO","PDO_MYSQL","inclued","APC","couchbase","zip","mailparse","big_int","igbinary","runkit"]

@@ -14,7 +14,7 @@ $ sudo -H pip install ansible --quiet
 ```
 * [vagrant-hostmanager](https://github.com/smdahlen/vagrant-hostmanager)
 ```shell
-vagrant plugin install vagrant-hostmanager
+$ vagrant plugin install vagrant-hostmanager
 ```
 
 ## Installation and Usage

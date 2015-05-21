@@ -1,0 +1,5 @@
+mariadb:
+    root_password: root
+    user: myApp
+    password: myApp
+    database: myApp
