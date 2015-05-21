@@ -8,4 +8,5 @@
       apt: update_cache=yes
   roles:
     - webserver
+    - memcached
     - database
