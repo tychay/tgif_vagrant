@@ -1,8 +1,8 @@
 ---
     php_ppa: php5-5.6
     doc_root: /vagrant/html
-    sys_packages: [re2c]
+    sys_packages: ["yui-compressor"]
     dist: precise
     php_packages: ["php-pear","php5-curl","php5-cli","php5-gd","php5-mcrypt","php5-memcached","php5-xdebug","php5-tidy","php5-mysql","php-apc"]
-    pecl_packages: []
-    x_pecl_packages: ["inclued","APC","couchbase","zip","mailparse","big_int","igbinary","runkit"]
+    pecl_packages: ["mailparse","igbinary"]
+    x_pecl_packages: ["inclued","couchbase","big_int","runkit"]
