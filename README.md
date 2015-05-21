@@ -1,7 +1,7 @@
-# Vagrant LAMP stack
-A dead-simple LAMP stack without any bells and whistles for your basic Linux/Apache/MySQL/PHP install, using Ansible for provisioning.
+# TGIFramework Vagrant
 
-This was based on [Vagrant LAMP Stack](https://github.com/MiniCodeMonkey/Vagrant-LAMP-Stack), but since it hasn't worked since Chef dev tools came out (weird Chef dependencies were not kept to date), I rolled my own.
+A LAMP stack necessary to bootstrap [TGIFramework](https://github.com/tychay/TGIFramework) development via Vagrant using VirtualBox as the provider and
+Ansible as the provioner.
 
 ## Requirements
 * [Apple XCode](https://developer.apple.com/xcode/)
@@ -17,23 +17,35 @@ $ sudo -H pip install ansible --quiet
 vagrant plugin install vagrant-hostmanager
 ```
 
-## Installation
+## Installation and Usage
 
 Install the requirements above.
 
 Clone this repository
 
-    $ git clone ?? project_name
+```shell
+$ git clone git@github.com:tychay/tgif_vagrant.git projectname_dev
+```
 
-Place your website in the `??` folder
+Clone TGIFramework into tgif
 
-## Usage
-Start the VM
+```shell
+$ cd projectname_dev
+$ git clone git@github.com:tychay/TGIFramework.git tgif
+```
 
-	$ cd project_name
-	$ vagrant up
+Make (or clone) your project into a directory and edit `projectname` in
+`VagrantFile` to point to the direcotry of the cloned project. Then run
+`vagrant up`
 
-You can now access your project at [http://projectname.local](http://projectname.local)
+```shell
+$ git clone ??? projectname
+$ vagrant up
+```
+
+You can now access your project at [http://projectname.dev/](http://projectname.dev/).
+
+TGIFramework samples should successfully run in [http://tgif.dev/](http://tgif.dev/)
 
 ![Screenshot of up-and-running server](http://i.imgur.com/TP1i9Zd.png)
 
