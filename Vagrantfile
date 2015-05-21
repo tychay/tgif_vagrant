@@ -96,7 +96,7 @@ Vagrant.configure("2") do |config|
     # argument is a set of non-required options.
     # http://docs.vagrantup.com/v2/synced-folders/basic_usage.html
     config.vm.synced_folder "./"+project_name, "/home/vagrant/"+host_name, :mount_options => ["dmode=777", "fmode=666"]
-    config.vm.synced_folder "./tgif", "/home/vagrant/tgif", :mount_options => ["dmode=777", "fmode=666"]
+    config.vm.synced_folder "./TGIFramework", "/home/vagrant/tgif", :mount_options => ["dmode=777", "fmode=666"]
     # disable default
     #config.vm.synced_folder "./", "/vagrant", type: "nfs"
     #config.vm.synced_folder ".", "/vagrant", disabled: true

@@ -31,21 +31,23 @@ Clone TGIFramework into tgif
 
 ```shell
 $ cd projectname_dev
-$ git clone git@github.com:tychay/TGIFramework.git tgif
+$ git clone git@github.com:tychay/TGIFramework.git
 ```
 
-Make (or clone) your project into a directory and edit `projectname` in
+Make (or clone) your project into a directory and edit `myApp` in
 `VagrantFile` to point to the direcotry of the cloned project. Then run
 `vagrant up`
 
 ```shell
-$ git clone ??? projectname
+$ git clone ??? myApp
 $ vagrant up
+$ vagrant reload --provision
 ```
 
-You can now access your project at [http://projectname.dev/](http://projectname.dev/).
-
-TGIFramework samples should successfully run in [http://tgif.dev/](http://tgif.dev/)
+(Currently you have to run the provisioning twice due to a restart bug in nginx
+pecl interaction.) You can now access your project at
+[http://myapp.dev/](http://projectname.dev/). TGIFramework samples should
+successfully run in [http://tgif.dev/](http://tgif.dev/).
 
 ![Screenshot of up-and-running server](http://i.imgur.com/TP1i9Zd.png)
 
