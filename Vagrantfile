@@ -2,7 +2,8 @@
 # General Project Settings
 ##################################################
 # IP Address for the host only network, change it to anything you like
-# but please keep it within the IPv4 private network range
+# but please keep it within the IPv4 private network range. Note that you will
+# (currently) need to also edit ansible/inventories/dev if you change this
 ip_address = "172.22.22.22"
 
 # The project name is base for directories, hostname and alike

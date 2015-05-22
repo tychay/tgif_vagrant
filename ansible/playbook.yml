@@ -3,7 +3,7 @@
   sudo: true
   vars:
     web_server: nginxphp
-    servername: myapp myapp.dev www.myapp.dev 172.22.22.22
+    servername: "{{hostname}} {{hostname}}.dev www.{{hostname}}.dev {{private_interface}}"
     tgif_servername: tgif tgif.dev www.tgif.dev
     timezone: UTC
   vars_files:
