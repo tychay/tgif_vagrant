@@ -34,20 +34,22 @@ $ cd projectname_dev
 $ git clone git@github.com:tychay/TGIFramework.git
 ```
 
-Make (or clone) your project into a directory and edit `myApp` in
-`VagrantFile` to point to the direcotry of the cloned project. Then run
-`vagrant up`
+Make (or clone) your project into a directory and edit the first lines in
+`VagrantFile` to point to the directory of the cloned project. (By default
+there is a dummy myApp application to test things out). Then run `vagrant up`.
 
 ```shell
-$ git clone ??? myApp
+$ git clone … projectname
+$ vim Vagrantfile
 $ vagrant up
 $ vagrant reload --provision
 ```
 
 (Currently you have to run the provisioning twice due to a restart bug in nginx
 pecl interaction.) You can now access your project at
-[http://myapp.dev/](http://projectname.dev/). TGIFramework samples should
-successfully run in [http://tgif.dev/](http://tgif.dev/).
+[http://myapp.dev/](http://myapp.dev/) (or whatever you named it to).
+TGIFramework samples should successfully run in
+[http://tgif.dev/](http://tgif.dev/).
 
 ![Screenshot of up-and-running server](http://i.imgur.com/TP1i9Zd.png)
 
@@ -57,7 +59,7 @@ Chef will automatically try to import the database dump specified by the filenam
 If you are using the default configuration, just create a `dump.sql` file in the root directory with your table structure and/or content and it will be imported automatically when you run `vagrant up`.
 
 ## Installed Server
-* Ubuntu Vivid Vervet (15.04)
+* Ubuntu Trusty Tahir (14.04)
 
 ## Installed software
 * Apache 2
@@ -78,7 +80,6 @@ If you are using the default configuration, just create a `dump.sql` file in the
 
 ### Memcached
 * Port: 11211
-
 
 [![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/MiniCodeMonkey/vagrant-lamp-stack/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 

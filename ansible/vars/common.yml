@@ -1,6 +1,7 @@
 ---
     php_ppa: php5-5.6
-    doc_root: /vagrant/html
+    doc_root: /home/vagrant/{{ hostname }}/www
+    tgif_doc_root: /home/vagrant/tgif/samples/www
     sys_packages: ["yui-compressor","git"]
     dist: precise
     php_packages: ["php-pear","php5-curl","php5-cli","php5-gd","php5-mcrypt","php5-memcached","php5-xdebug","php5-tidy","php5-mysql","php5-gmp","php-apc"]

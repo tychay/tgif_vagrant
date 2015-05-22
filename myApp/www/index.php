@@ -30,7 +30,7 @@ if ( class_exists('memcached') ) {
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Vagrant LAMP stack</title>
+	<title>MyApp Test Application</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet" />
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">

@@ -3,7 +3,39 @@
   sudo: yes
   apt: pkg=nginx state=latest
 
-- name: Change default nginx site
+- name: Remove default nginx site
   sudo: yes
-  template: src={{ ws_template }} dest={{ ws_vhost_path }}/{{ ws_vhost_file }}
+  file:
+    path={{ws_enabled_path}}/{{ws_vhost_file}}
+    state=absent
+  notify: restart nginx
+
+- name: Add application nginx site
+  sudo: yes
+  template:
+    src=app.j2
+    dest={{ws_vhost_path}}/{{hostname}}
+  notify: restart nginx
+
+- name: Enable application nginx site
+  sudo: yes
+  file:
+    src={{ws_vhost_path}}/{{hostname}}
+    dest={{ws_enabled_path}}/{{hostname}}
+    state=link
+  notify: restart nginx
+
+- name: Add tgif nginx site
+  sudo: yes
+  template:
+    src=tgif.j2
+    dest={{ws_vhost_path}}/tgif
+  notify: restart nginx
+
+- name: Enable tgif nginx site
+  sudo: yes
+  file:
+    src={{ws_vhost_path}}/tgif
+    dest={{ws_enabled_path}}/tgif
+    state=link
   notify: restart nginx
