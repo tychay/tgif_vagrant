@@ -41,8 +41,7 @@ there is a dummy myApp application to test things out). Then run `vagrant up`.
 ```shell
 $ git clone … projectname
 $ vim Vagrantfile
-$ vagrant up
-$ vagrant reload --provision
+$ vagrant up && vagrant provision
 ```
 
 (Currently you have to run the provisioning twice due to a restart bug in nginx
