@@ -8,6 +8,16 @@
     dest=/etc/php5/mods-available/phpdev.ini
   notify: restart php5-fpm
 
+- name: remove inclued extension from php-cli
+  file:
+    path=/etc/php5/cli/conf.d/20-inclued.ini
+    state=absent
+
+- name: remove xhprof extension from php-cli
+  file:
+    path=/etc/php5/cli/conf.d/20-xhprof.ini
+    state=absent
+
 - name: Enable development php configuration in php-fpm
   sudo: yes
   file:
@@ -15,3 +25,8 @@
     dest=/etc/php5/fpm/conf.d/30-phpdev.ini
     state=link
   notify: restart php5-fpm
+
+- name: Get composer dependencies for TGIFramework
+  composer:
+    command=install
+    working_dir=/home/vagrant/tgif

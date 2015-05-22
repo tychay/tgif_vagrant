@@ -1,0 +1,6 @@
+https://github.com/geerlingguy/ansible-role-composer
+
+Source
+- depends on a personal script that isn't needed ("geerlingguy.php")
+- has unneded tests
+- doesn't use sudo when moving files/updating

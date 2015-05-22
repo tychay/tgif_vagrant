@@ -18,4 +18,5 @@
     - mariadb
     - phpcommon
     - php-pecl
+    - composer
     - app
