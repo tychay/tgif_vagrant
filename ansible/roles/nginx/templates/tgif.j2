@@ -17,11 +17,12 @@ server {
         root /usr/share/nginx/www;
     }
 
-    location ~ \.php$ {
+    location ~ \.(hh|php)$ {
         fastcgi_split_path_info ^(.+\.php)(/.+)$;
         fastcgi_pass unix:/var/run/php5-fpm.sock;
         fastcgi_index index.php;
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param PHP_VALUE "auto_prepend_file=/home/vagrant/tgif/samples/prepend.php \n";
         include fastcgi_params;
     }
 }
