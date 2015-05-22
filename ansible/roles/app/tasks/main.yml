@@ -1,2 +1,17 @@
 ---
 # application tasks to be customized and to run after the main provision
+
+- name: Add development php configuration
+  sudo: yes
+  template:
+    src=phpdev.ini.j2
+    dest=/etc/php5/mods-available/phpdev.ini
+  notify: restart php5-fpm
+
+- name: Enable development php configuration in php-fpm
+  sudo: yes
+  file:
+    src=/etc/php5/mods-available/phpdev.ini
+    dest=/etc/php5/fpm/conf.d/30-phpdev.ini
+    state=link
+  notify: restart php5-fpm
