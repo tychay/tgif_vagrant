@@ -1,7 +1,7 @@
 # TGIFramework Vagrant
 
 A LAMP stack necessary to bootstrap [TGIFramework](https://github.com/tychay/TGIFramework) development via Vagrant using VirtualBox as the provider and
-Ansible as the provioner.
+Ansible as the provisioner.
 
 ## Requirements
 * [Apple XCode](https://developer.apple.com/xcode/)
@@ -24,36 +24,39 @@ Install the requirements above.
 Clone this repository
 
 ```shell
-$ git clone git@github.com:tychay/tgif_vagrant.git projectname_dev
+$ git clone git@github.com:tychay/tgif_vagrant.git tgivagrant
 ```
 
 Clone TGIFramework into tgif
 
 ```shell
-$ cd projectname_dev
+$ cd tgivagrant
 $ git clone git@github.com:tychay/TGIFramework.git
 ```
 
 Make (or clone) your project into a directory and edit the first lines in
-`VagrantFile` to point to the directory of the cloned project. (By default
-there is a dummy myApp application to test things out). Then run `vagrant up`.
+`VagrantFile` to point `project_name` to the directory of the cloned project.
+Then run `vagrant up`. The following example installs the sample project:
 
 ```shell
-$ git clone … projectname
-$ vim Vagrantfile
+$ git clone git@github.com:tychay/tgiframework_sample.git sample
+$ cp Vagrantfile.dist Vagrantfile
+$ nano Vagrantfile
 $ vagrant up
-$ vagrant provision
+$ vagrant reload --provision
 ```
 
 (Currently you have to run the provisioning twice due to a restart bug in nginx
 pecl interaction.) You can now access your project at
-[http://myapp.dev/](http://myapp.dev/) (or whatever you named it to).
+[http://sample.dev/](http://sample.dev/) (or whatever you named it to if you
+changed `host_name` in the `Vagrantfile`).
 TGIFramework samples should successfully run in
 [http://tgif.dev/](http://tgif.dev/).
 
 ![Screenshot of up-and-running server](http://i.imgur.com/TP1i9Zd.png)
 
 ### Database dump import
+TODO:
 Chef will automatically try to import the database dump specified by the filename set in the `:db_dump` option of your Vagrantfile.
 
 If you are using the default configuration, just create a `dump.sql` file in the root directory with your table structure and/or content and it will be imported automatically when you run `vagrant up`.
@@ -62,12 +65,13 @@ If you are using the default configuration, just create a `dump.sql` file in the
 * Ubuntu Trusty Tahir (14.04)
 
 ## Installed software
-* Apache 2
-* MySQL
-* PHP 5.4 (with mysql, curl, mcrypt, memcached, gd)
+* Nginx
+* MySQL (actually MariaDB)
+* PHP 5.6 (with mysql, curl, mcrypt, memcached, gd, tidy, apcu, gmp, igbinary)
+* PHP dev extensions (xdebug, xhprof, inclued)
 * memcached
 * postfix
-* vim, git, screen, curl, composer
+* vim, git, screen, curl, composer, yuicompressor
 
 ## Default credentials
 ### MySQL
@@ -81,5 +85,4 @@ If you are using the default configuration, just create a `dump.sql` file in the
 ### Memcached
 * Port: 11211
 
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/MiniCodeMonkey/vagrant-lamp-stack/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/tychay/tgif_vagrant/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
