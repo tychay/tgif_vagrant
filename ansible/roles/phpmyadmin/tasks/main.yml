@@ -17,17 +17,30 @@
   when: ansible_os_family == 'Debian'
 
 - name: phpmyadmin| Create database for PHPMyAdmin
-  mysql_db: name={{ phpmyadmin_control_database | default('phpmyadmin') }} state=present
+  mysql_db:
+    name={{ phpmyadmin_control_database | default('phpmyadmin') }}
+    state=present
+    login_user=root
+    login_password={{ mariadb.root_password }}
   register: phpmyadmin_database
 
 - name: phpmyadmin | Import PHPMyAdmin schema
-  mysql_db: name={{ phpmyadmin_control_database | default('phpmyadmin') }} state=import
-            target=/usr/share/doc/phpmyadmin/examples/create_tables.sql.gz
+  mysql_db:
+    name={{ phpmyadmin_control_database | default('phpmyadmin') }}
+    state=import
+    target=/usr/share/doc/phpmyadmin/examples/create_tables.sql.gz
+    login_user=root
+    login_password={{ mariadb.root_password }}
   when: phpmyadmin_database is defined and phpmyadmin_database.changed == True
 
 - name: phpmyadmin | Create PHPMyAdmin control user
-  mysql_user: name={{ phpmyadmin_control_user | default('phpmyadmin') }} state=present
-              password={{ phpmyadmin_control_password }} priv='{{ phpmyadmin_control_database | default('phpmyadmin') }}.*:ALL'
+  mysql_user:
+    name={{ phpmyadmin_control_user | default('phpmyadmin') }}
+    state=present
+    password={{ phpmyadmin_control_password }}
+    priv='{{ phpmyadmin_control_database | default('phpmyadmin') }}.*:ALL'
+    login_user=root
+    login_password={{ mariadb.root_password }}
 
 #- name: phpmyadmin | Modify config file
 #  lineinfile: >
