@@ -1,3 +1,3 @@
-[submodule "roles/memcached"]
-	path = roles/memcached
+[submodule "ansible/roles/memcached"]
+	path = ansible/roles/memcached
 	url = git@github.com:bennojoy/memcached.git
