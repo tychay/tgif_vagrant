@@ -1,9 +1,11 @@
 ---
 # Setup/install tasks.
-- include: setup-RedHat.yml
+- name: Ensure PHPMyAdmin is installed.
+  yum: pkg=phpmyadmin state=installed enablerepo=epel
   when: ansible_os_family == 'RedHat'
 
-- include: setup-Debian.yml
+- name: Ensure PHPMyAdmin is installed.
+  apt: pkg=phpmyadmin state=installed
   when: ansible_os_family == 'Debian'
 
 - name: Add default username and password for MySQL connection.
@@ -20,3 +22,18 @@
   - { key: connect_type, value: "{{ phpmyadmin_mysql_connect_type }}" }
   - { key: user, value: "{{ phpmyadmin_mysql_user }}" }
   - { key: password, value: "{{ phpmyadmin_mysql_password }}"}
+
+- name: Add myadmin nginx site
+  sudo: yes
+  template:
+    src=phpmyadmin.j2
+    dest={{ws_vhost_path}}/phpmyadmin
+  notify: restart nginx
+
+- name: Enable myadmin nginx site
+  sudo: yes
+  file:
+    src={{ws_vhost_path}}/phpmyadmin
+    dest={{ws_enabled_path}}/phpmyadmin
+    state=link
+  notify: restart nginx
