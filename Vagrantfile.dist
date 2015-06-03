@@ -76,7 +76,7 @@ Vagrant.configure("2") do |config|
     config.vm.define host_name do |node|
         node.vm.hostname = host_name + ".dev"
         node.vm.network :private_network, ip: ip_address
-        node.hostmanager.aliases = [ "www."+host_name+".dev", "tgif.dev", "www.tgif.dev" ]
+        node.hostmanager.aliases = [ "www."+host_name+".dev", "myadmin.dev" ]
     end
     # probably need to move this and set enabled = false to fix for vivid
     config.vm.provision :hostmanager
