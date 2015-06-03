@@ -1,39 +1,61 @@
 ---
-# Setup/install tasks.
-- name: Ensure PHPMyAdmin is installed.
+
+- name: phpmyadmin | Install dbconfig-common
+  apt: pkg=dbconfig-common state=latest install_recommends=no
+  
+- name: phpmyadmin | Pre-configure mysqladmin
+  template: src=db_config.phpmyadmin.conf.j2
+            dest=/etc/dbconfig-common/phpmyadmin.conf
+            owner=root group=root mode=0600
+
+- name: phpmyadmin | Install PHPMyAdmin packages
   yum: pkg=phpmyadmin state=installed enablerepo=epel
   when: ansible_os_family == 'RedHat'
 
-- name: Ensure PHPMyAdmin is installed.
+- name: phpmyadmin | Install phpmyadmin packages
   apt: pkg=phpmyadmin state=installed
   when: ansible_os_family == 'Debian'
 
-- name: Add default username and password for MySQL connection.
-  lineinfile: >
-    dest=/etc/phpmyadmin/config.inc.php
-    state=present
-    regexp="^.+\['{{ item.key }}'\].+$"
-    line="$cfg['Servers'][$i]['{{ item.key }}'] = '{{ item.value }}';"
-    insertbefore="^\?>"
-  with_items:
-  - { key: host, value: "{{ phpmyadmin_mysql_host }}" }
-  - { key: port, value: "{{ phpmyadmin_mysql_port }}" }
-  - { key: socket, value: "{{ phpmyadmin_mysql_socket }}" }
-  - { key: connect_type, value: "{{ phpmyadmin_mysql_connect_type }}" }
-  - { key: user, value: "{{ phpmyadmin_mysql_user }}" }
-  - { key: password, value: "{{ phpmyadmin_mysql_password }}"}
+- name: phpmyadmin| Create database for PHPMyAdmin
+  mysql_db: name={{ phpmyadmin_control_database | default('phpmyadmin') }} state=present
+  register: phpmyadmin_database
 
-- name: Add myadmin nginx site
+- name: phpmyadmin | Import PHPMyAdmin schema
+  mysql_db: name={{ phpmyadmin_control_database | default('phpmyadmin') }} state=import
+            target=/usr/share/doc/phpmyadmin/examples/create_tables.sql.gz
+  when: phpmyadmin_database is defined and phpmyadmin_database.changed == True
+
+- name: phpmyadmin | Create PHPMyAdmin control user
+  mysql_user: name={{ phpmyadmin_control_user | default('phpmyadmin') }} state=present
+              password={{ phpmyadmin_control_password }} priv='{{ phpmyadmin_control_database | default('phpmyadmin') }}.*:ALL'
+
+#- name: phpmyadmin | Modify config file
+#  lineinfile: >
+#    dest=/etc/phpmyadmin/config.inc.php
+#    state=present
+#    regexp="^.+\['{{ item.key }}'\].+$"
+#    line="$cfg['Servers'][$i]['{{ item.key }}'] = '{{ item.value }}';"
+#    insertbefore="^\?>"
+#  with_items:
+#  - { key: host, value: "{{ phpmyadmin_mysql_host }}" }
+#  - { key: port, value: "{{ phpmyadmin_mysql_port }}" }
+#  - { key: socket, value: "{{ phpmyadmin_mysql_socket }}" }
+#  - { key: connect_type, value: "{{ phpmyadmin_mysql_connect_type }}" }
+#  - { key: user, value: "{{ phpmyadmin_mysql_user }}" }
+#  - { key: password, value: "{{ phpmyadmin_mysql_password }}"}
+
+- name: phpmyadmin | Add site to nginx
   sudo: yes
   template:
-    src=phpmyadmin.j2
+    src=nginx.phpmyadmin.j2
     dest={{ws_vhost_path}}/phpmyadmin
   notify: restart nginx
 
-- name: Enable myadmin nginx site
+- name: phpmyadmin | Enable site in nginx
   sudo: yes
   file:
     src={{ws_vhost_path}}/phpmyadmin
     dest={{ws_enabled_path}}/phpmyadmin
     state=link
   notify: restart nginx
+
