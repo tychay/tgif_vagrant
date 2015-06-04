@@ -42,14 +42,27 @@
     login_user=root
     login_password={{ mariadb.root_password }}
 
-#- name: phpmyadmin | Modify config file
-#  lineinfile: >
-#    dest=/etc/phpmyadmin/config.inc.php
-#    state=present
+- name: phpmyadmin | Modify config file (phpMyAdmin naming conventions changed)
+  lineinfile: >
+    dest=/etc/phpmyadmin/config.inc.php
+    state=present
+    regexp="^    \$cfg\['Servers'\]\[\$i\]\['{{ item.key }}'\].+$"
+    line="    $cfg['Servers'][$i]['{{ item.key }}'] = '{{ item.value }}';"
+    insertbefore="^\?>"
+  with_items:
+  - { key: bookmarktable, value: "pma__bookmark" }
+  - { key: relation, value: "pma__relation" }
+  - { key: table_info, value: "pma__table_info" }
+  - { key: table_coords, value: "pma__table_coords" }
+  - { key: pdf_pages, value: "pma__pdf_pages" }
+  - { key: column_info, value: "pma__column_info" }
+  - { key: history, value: "pma__history" }
+  - { key: table_uiprefs, value: "pma__table_uiprefs" }
+  - { key: designer_coords, value: "pma__designer_coords" }
+  - { key: tracking, value: "pma__tracking" }
+  - { key: userconfig, value: "pma__userconfig" }
+  - { key: recent, value: "pma__recent" }
 #    regexp="^.+\['{{ item.key }}'\].+$"
-#    line="$cfg['Servers'][$i]['{{ item.key }}'] = '{{ item.value }}';"
-#    insertbefore="^\?>"
-#  with_items:
 #  - { key: host, value: "{{ phpmyadmin_mysql_host }}" }
 #  - { key: port, value: "{{ phpmyadmin_mysql_port }}" }
 #  - { key: socket, value: "{{ phpmyadmin_mysql_socket }}" }
